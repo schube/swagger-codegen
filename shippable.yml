@@ -10,7 +10,8 @@ build:
   cache_dir_list:
     - $HOME/.m2
   ci:
-    # generate all petstore sampless (client, servers, doc)
+    # generate all petstore samples (client, servers, doc)
+    - cd .. && rm -Rf swagger-codegen && git clone https://github.com/swagger-api/swagger-codegen.git && cd swagger-codegen
     - ./bin/run-all-petstore 2>&1 > run-all-petstore.log
   post_ci:
     - tail run-all-petstore.log
