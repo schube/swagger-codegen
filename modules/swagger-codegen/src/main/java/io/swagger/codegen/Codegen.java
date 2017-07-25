@@ -108,6 +108,7 @@ public class Codegen extends DefaultGenerator {
             }
         } catch (Exception e) {
             usage(options);
+            System.out.println(e.getMessage());
             return;
         }
         try {

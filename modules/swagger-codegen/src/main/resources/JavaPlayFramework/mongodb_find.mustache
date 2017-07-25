@@ -1,0 +1,11 @@
+//Auto generated Code Mongo-Find
+		try {
+			MongoCollection<Document> collection = MongoDB.get().getCollection("{{vendorExtensions.x-mongo-collection}}");
+			for (Document d : collection.find()) {
+				Model model = new Model();
+				model.setName( d.getString("name") );
+				response.getModels().add(model);
+			}
+		 } catch (Exception e) {
+			 e.printStackTrace();
+		 }

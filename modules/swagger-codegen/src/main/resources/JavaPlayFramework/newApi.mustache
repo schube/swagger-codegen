@@ -2,7 +2,7 @@ package {{package}};
 
 {{#imports}}import {{import}};
 {{/imports}}
-
+import apimodels.*;
 import play.mvc.Http;
 import java.util.List;
 import java.util.ArrayList;
@@ -11,12 +11,18 @@ import java.io.FileInputStream;
 {{#useBeanValidation}}
 import javax.validation.constraints.*;
 {{/useBeanValidation}}
+import com.mongodb.client.MongoCollection;
+import javax.inject.Inject;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import services.MongoDB;
+import org.bson.Document;
 {{>generatedAnnotation}}
 {{#operations}}
 public class {{classname}}ControllerImp {{#useInterfaces}}implements {{classname}}ControllerImpInterface{{/useInterfaces}} {
 
     private final ObjectMapper mapper;
-
+    
+    
     @Inject
     private {{classname}}ControllerImp() {
         mapper = new ObjectMapper();
@@ -25,14 +31,11 @@ public class {{classname}}ControllerImp {{#useInterfaces}}implements {{classname
 {{#operation}}
     {{#useInterfaces}}@Override{{/useInterfaces}}
     public {{>returnTypes}} {{operationId}}({{#allParams}}{{>pathParams}}{{>queryParams}}{{>bodyParams}}{{>formParams}}{{>headerParams}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {{#handleExceptions}}throws Exception{{/handleExceptions}} {
-        //Do your magic!!!
-        {{#examples}}
-        String accept = request().getHeader("Accept");
-        if (accept != null && accept.contains("{{{contentType}}}")) {
-            return mapper.readValue("{{#lamdaRemoveLineBreak}}{{#lamdaEscapeDoubleQuote}}{{{example}}}{{/lamdaEscapeDoubleQuote}}{{/lamdaRemoveLineBreak}}", {{>exampleReturnTypes}}.class);
-        }
-        {{/examples}}
-        {{#returnType}}{{#isResponseFile}}return new FileInputStream("replace this");{{/isResponseFile}}{{^isResponseFile}}return new {{>returnTypesNoVoidNoAbstract}}();{{/isResponseFile}}{{/returnType}}
+        //Do your magic!!!		
+    	{{>returnTypesNoVoidNoAbstract}} response = new {{>returnTypesNoVoidNoAbstract}}();
+    	
+    	{{#vendorExtensions.x-mongo-add}}{{> mongodb_add}}{{/vendorExtensions.x-mongo-add}}{{#vendorExtensions.x-mongo-update}}{{> mongodb_update}}{{/vendorExtensions.x-mongo-update}}{{#vendorExtensions.x-mongo-find}}{{> mongodb_find}}{{/vendorExtensions.x-mongo-find}}{{#vendorExtensions.x-mongo-delete}}{{> mongodb_delete}}{{/vendorExtensions.x-mongo-delete}}
+        {{#returnType}}{{#isResponseFile}}return new FileInputStream("replace this");{{/isResponseFile}}{{^isResponseFile}}return response;{{/isResponseFile}}{{/returnType}}
     }
 
 {{/operation}}

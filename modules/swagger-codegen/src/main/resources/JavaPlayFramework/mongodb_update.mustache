@@ -1,0 +1,9 @@
+//Auto generated Code Mongo-Update
+		try {
+			String jsonInString = mapper.writeValueAsString({{#allParams}}{{paramName}}{{/allParams}});
+			Document document = Document.parse(jsonInString);
+			
+			MongoDB.get().getCollection("{{vendorExtensions.x-mongo-collection}}").insertOne(document);
+		 } catch (Exception e) {
+			 e.printStackTrace();
+		 }

@@ -1,5 +1,6 @@
 package {{package}};
 
+import apimodels.User;
 {{#imports}}import {{import}};
 {{/imports}}
 
@@ -137,7 +138,8 @@ public class {{classname}}Controller extends Controller {
         {{/collectionFormat}}
         {{/headerParams}}
         {{^controllerOnly}}
-        {{#returnType}}{{>returnTypesNoVoid}} obj = {{/returnType}}imp.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{#returnType}}{{^isResponseFile}}{{^returnTypeIsPrimitive}}{{#useBeanValidation}}
+        User user = (User)ctx().args.get("user");
+        {{#returnType}}{{>returnTypesNoVoid}} obj = {{/returnType}}imp.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}, user);{{#returnType}}{{^isResponseFile}}{{^returnTypeIsPrimitive}}{{#useBeanValidation}}
         {{#isListContainer}}for ({{{returnType}}} curItem : obj) {
             curItem.validate();
         }{{/isListContainer}}{{#isMapContainer}}for (Map.Entry<String, {{{returnType}}}> entry : obj.entrySet()) {

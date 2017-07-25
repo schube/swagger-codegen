@@ -1,5 +1,6 @@
 package {{package}};
 
+import apimodels.User;
 {{#imports}}import {{import}};
 {{/imports}}
 
@@ -15,7 +16,7 @@ import javax.validation.constraints.*;
 {{#operations}}
 public interface {{classname}}ControllerImpInterface {
 {{#operation}}
-    {{>returnTypes}} {{operationId}}({{#allParams}}{{>pathParams}}{{>queryParams}}{{>bodyParams}}{{>formParams}}{{>headerParams}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {{#handleExceptions}}throws Exception{{/handleExceptions}};
+    {{>returnTypes}} {{operationId}}({{#allParams}}{{>pathParams}}{{>queryParams}}{{>bodyParams}}{{>formParams}}{{>headerParams}}{{#hasMore}}, {{/hasMore}}{{/allParams}}, User user) {{#handleExceptions}}throws Exception{{/handleExceptions}};
 
 {{/operation}}
 }
