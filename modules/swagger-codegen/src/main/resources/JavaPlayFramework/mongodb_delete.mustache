@@ -1,8 +1,5 @@
-//Auto generated Code Mongo-Delete
-		try {	 
-			String jsonInString = mapper.writeValueAsString({{#allParams}}{{paramName}}{{/allParams}});
-			Document document = Document.parse(jsonInString);			
-			MongoDB.get().getCollection("{{vendorExtensions.x-mongo-collection}}").insertOne(document);
-		 } catch (Exception e) {
-			 e.printStackTrace();
-		 }
+final Query<XXX> query = datastore.createQuery(XXX.class);
+query.and(query.criteria("_id").equal(xxxId), query.criteria("_user").equal(user));
+
+XXX deletedModel = datastore.findAndDelete(query);
+return deletedModel;

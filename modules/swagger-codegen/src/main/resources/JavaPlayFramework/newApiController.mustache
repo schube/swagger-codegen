@@ -27,41 +27,19 @@ import swagger.SwaggerUtils.ApiAction;
 
 {{>generatedAnnotation}}
 {{#operations}}
-public class {{classname}}Controller extends Controller {
+public class {{classname}}Controller extends RESTController {
 
     {{^controllerOnly}}private final {{classname}}ControllerImp imp;{{/controllerOnly}}
-    private final ObjectMapper mapper;
 
     @Inject
     private {{classname}}Controller({{^controllerOnly}}{{classname}}ControllerImp imp{{/controllerOnly}}) {
         {{^controllerOnly}}this.imp = imp;{{/controllerOnly}}
-        mapper = new ObjectMapper();
     }
 
 {{#operation}}
 
-    {{#wrapCalls}}@ApiAction{{/wrapCalls}}
+
     public Result {{operationId}}({{#pathParams}}{{>pathParams}}{{#hasMore}},{{/hasMore}}{{/pathParams}}) {{^handleExceptions}}{{#bodyParams}}throws IOException{{/bodyParams}}{{/handleExceptions}}{{#handleExceptions}}throws Exception{{/handleExceptions}} {
-        {{#bodyParams}}
-        {{^collectionFormat}}
-        JsonNode node{{paramName}} = request().body().asJson();
-        {{{dataType}}} {{paramName}};
-        {{^required}}
-        if (node{{paramName}} != null) {
-            {{paramName}} = mapper.readValue(node{{paramName}}.toString(), {{#isContainer}}new TypeReference<{{{dataType}}}>(){}{{/isContainer}}{{^isContainer}}{{{dataType}}}.class{{/isContainer}});{{/required}}
-        {{#required}}{{paramName}} = mapper.readValue(node{{paramName}}.toString(), {{#isContainer}}new TypeReference<{{{dataType}}}>(){}{{/isContainer}}{{^isContainer}}{{{dataType}}}.class{{/isContainer}});{{/required}}{{#useBeanValidation}}
-        {{#isListContainer}}for ({{{baseType}}} curItem : {{paramName}}) {
-            curItem.validate();
-        }{{/isListContainer}}{{#isMapContainer}}for (Map.Entry<String, {{{baseType}}}> entry : {{paramName}}.entrySet()) {
-            entry.getValue().validate();
-        }
-        {{/isMapContainer}}{{^isContainer}}{{paramName}}.validate();{{/isContainer}}{{/useBeanValidation}}
-        {{^required}}
-        } else {
-            {{paramName}} = null;
-        }{{/required}}
-        {{/collectionFormat}}
-        {{/bodyParams}}
         {{#queryParams}}
         {{#collectionFormat}}
         List<String> {{paramName}}List = SwaggerUtils.parametersToList("{{collectionFormat}}", request().queryString().get("{{baseName}}"));
@@ -138,16 +116,19 @@ public class {{classname}}Controller extends Controller {
         {{/collectionFormat}}
         {{/headerParams}}
         {{^controllerOnly}}
-        User user = (User)ctx().args.get("user");
-        {{#returnType}}{{>returnTypesNoVoid}} obj = {{/returnType}}imp.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}, user);{{#returnType}}{{^isResponseFile}}{{^returnTypeIsPrimitive}}{{#useBeanValidation}}
+        User user = (User) ctx().args.get("user");
+		JsonNode body_as_json = request().body().asJson();
+		//Change me, remove "Api"
+		{{classname}} model = Json.fromJson(body_as_json, {{classname}}.class);
+        {{#returnType}}{{>returnTypesNoVoid}} result = {{/returnType}}imp.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}, user);{{#returnType}}{{^isResponseFile}}{{^returnTypeIsPrimitive}}{{#useBeanValidation}}
         {{#isListContainer}}for ({{{returnType}}} curItem : obj) {
-            curItem.validate();
+
         }{{/isListContainer}}{{#isMapContainer}}for (Map.Entry<String, {{{returnType}}}> entry : obj.entrySet()) {
             entry.getValue().validate();
         }
-        {{/isMapContainer}}{{^returnContainer}}obj.validate();{{/returnContainer}}{{/useBeanValidation}}{{/returnTypeIsPrimitive}}{{/isResponseFile}}{{/returnType}}
-        {{#returnType}}{{^isResponseFile}}JsonNode result = mapper.valueToTree(obj);
-        return ok(result);{{/isResponseFile}}{{#isResponseFile}}return ok(obj);{{/isResponseFile}}{{/returnType}}
+        {{/isMapContainer}}{{^returnContainer}}{{/returnContainer}}{{/useBeanValidation}}{{/returnTypeIsPrimitive}}{{/isResponseFile}}{{/returnType}}
+        {{#returnType}}{{^isResponseFile}}
+        return jsonOk(result);{{/isResponseFile}}{{#isResponseFile}}return jsonOk(result);{{/isResponseFile}}{{/returnType}}
         {{^returnType}}return ok();{{/returnType}}{{/controllerOnly}}
         {{#controllerOnly}}return ok();{{/controllerOnly}}
     }

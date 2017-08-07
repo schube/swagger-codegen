@@ -1,9 +1,11 @@
-//Auto generated Code Mongo-Update
-		try {
-			String jsonInString = mapper.writeValueAsString({{#allParams}}{{paramName}}{{/allParams}});
-			Document document = Document.parse(jsonInString);
-			
-			MongoDB.get().getCollection("{{vendorExtensions.x-mongo-collection}}").insertOne(document);
-		 } catch (Exception e) {
-			 e.printStackTrace();
-		 }
+		XXX modelFromDb = XXX.getByIdAndOwner(id, user.getId());
+
+		if (modelFromDb == null) {
+			throw new NotFoundException();
+		}
+		
+		
+		modelFromDb.updateWith(model);
+
+		modelFromDb.save();
+		return modelFromDb;
