@@ -3,10 +3,9 @@
  * {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
  */
 {{>generatedAnnotation}}
-@Entity("{{classname}}")
-public class {{classname}} extends ModelWithOwner {{#parent}}extends {{{parent}}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
+{{#vendorExtensions.x-mongo-collection}}@Entity("{{vendorExtensions.x-mongo-collection}}"){{/vendorExtensions.x-mongo-collection}}
+public class {{classname}} {{#vendorExtensions.x-extends}} extends {{vendorExtensions.x-extends}} {{/vendorExtensions.x-extends}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
   
-  private static Datastore datastore;
   
   {{#vars}}
     {{#isEnum}}
@@ -23,6 +22,7 @@ public class {{classname}} extends ModelWithOwner {{#parent}}extends {{{parent}}
     {{/items.isEnum}}
   {{#jackson}}
   @JsonProperty("{{baseName}}")
+  {{#vendorExtensions.x-is-id}}@Id{{/vendorExtensions.x-is-id}}
   {{/jackson}}
   {{#gson}}
   @SerializedName("{{baseName}}")
@@ -147,43 +147,7 @@ public class {{classname}} extends ModelWithOwner {{#parent}}extends {{{parent}}
   }
   {{/useBeanValidation}}
   
-  	public static {{classname}} getById(String id) {
-		if(datastore==null){
-			datastore = new MongoDB().getDatastore();
-		}
-		final Query<{{classname}}> query = datastore.createQuery({{classname}}.class);
-		query.criteria("id").equal(new ObjectId(id));
-
-		return query.get();
-	}
-  	public static {{classname}} getByIdAndOwner(String id, String ownerId) {
-		if(datastore==null){
-			datastore = new MongoDB().getDatastore();
-		}
-		final Query<{{classname}}> query = datastore.createQuery({{classname}}.class);
-		query.and(
-			query.criteria("ownerId").equal(new ObjectId(ownerId)),
-			query.criteria("id").equal(new ObjectId(id))
-		);
-		
-
-		return query.get();
-	}	
-	public void save() {
-		if(datastore==null){
-			datastore = new MongoDB().getDatastore();
-		}
-		datastore.save(this);
-	}	
-	public void delete() throws Exception {
-		if(datastore==null){
-			datastore = new MongoDB().getDatastore();
-		}
-		if(this.getId()==null) {
-			throw new Exception("ID is null");
-		}
-		datastore.delete(this);
-	}	
+  	
   
   
 }

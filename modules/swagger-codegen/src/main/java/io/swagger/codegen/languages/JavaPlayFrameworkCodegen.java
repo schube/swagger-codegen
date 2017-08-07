@@ -178,6 +178,10 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
             }
         }
 
+        //Mongo DB Store
+        modelTemplateFiles.put("mongo_datastore.mustache", "Datastore.java");
+        
+        
         additionalProperties.put("javaVersion", "1.8");
         additionalProperties.put("jdk8", "true");
         typeMapping.put("date", "LocalDate");

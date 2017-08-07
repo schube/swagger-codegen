@@ -1,11 +1,5 @@
 //Auto generated Code Mongo-Find
-		try {
-			MongoCollection<Document> collection = MongoDB.get().getCollection("{{vendorExtensions.x-mongo-collection}}");
-			for (Document d : collection.find()) {
-				Model model = new Model();
-				model.setName( d.getString("name") );
-				response.getModels().add(model);
-			}
-		 } catch (Exception e) {
-			 e.printStackTrace();
-		 }
+List<{{vendorExtensions.x-controller-model-class}}> {{vendorExtensions.x-controller-model-name}}s = datastore.find(findrequest, user.getId());
+{{vendorExtensions.x-controller-model-class}}s result = new {{vendorExtensions.x-controller-model-class}}s();
+result.set{{vendorExtensions.x-controller-model-class}}s({{vendorExtensions.x-controller-model-name}}s);
+return result;

@@ -20,14 +20,14 @@ import org.mongodb.morphia.Datastore;
 {{>generatedAnnotation}}
 {{#operations}}
 public class {{classname}}ControllerImp {{#useInterfaces}}implements {{classname}}ControllerImpInterface{{/useInterfaces}} {
-
-final Datastore datastore = new MongoDB().getDatastore();
+	//Todo Remove: sApi
+	final {{classname}}Datastore datastore = new {{classname}}Datastore();
 
 {{#operation}}
     {{#useInterfaces}}@Override{{/useInterfaces}}
     public {{>returnTypes}} {{operationId}}({{#allParams}}{{>pathParams}}{{>queryParams}}{{>bodyParams}}{{>formParams}}{{>headerParams}}{{#hasMore}}, {{/hasMore}}{{/allParams}}, User user) {{#handleExceptions}}throws Exception{{/handleExceptions}} {
 
-    	{{#vendorExtensions.x-mongo-add}}{{> mongodb_add}}{{/vendorExtensions.x-mongo-add}}{{#vendorExtensions.x-mongo-update}}{{> mongodb_update}}{{/vendorExtensions.x-mongo-update}}{{#vendorExtensions.x-mongo-find}}{{> mongodb_find}}{{/vendorExtensions.x-mongo-find}}{{#vendorExtensions.x-mongo-delete}}{{> mongodb_delete}}{{/vendorExtensions.x-mongo-delete}}
+    	{{#vendorExtensions.x-mongo-get}}{{> mongodb_get}}{{/vendorExtensions.x-mongo-get}}{{#vendorExtensions.x-mongo-add}}{{> mongodb_add}}{{/vendorExtensions.x-mongo-add}}{{#vendorExtensions.x-mongo-update}}{{> mongodb_update}}{{/vendorExtensions.x-mongo-update}}{{#vendorExtensions.x-mongo-find}}{{> mongodb_find}}{{/vendorExtensions.x-mongo-find}}{{#vendorExtensions.x-mongo-delete}}{{> mongodb_delete}}{{/vendorExtensions.x-mongo-delete}}{{#vendorExtensions.x-mongo-duplicate}}{{> mongodb_duplicate}}{{/vendorExtensions.x-mongo-duplicate}}
         
     }
 

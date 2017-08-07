@@ -1,5 +1,2 @@
-final Query<XXX> query = datastore.createQuery(XXX.class);
-query.and(query.criteria("_id").equal(xxxId), query.criteria("_user").equal(user));
-
-XXX deletedModel = datastore.findAndDelete(query);
-return deletedModel;
+//Auto generated Code Mongo-Delete
+datastore.delete(id, user.getId());

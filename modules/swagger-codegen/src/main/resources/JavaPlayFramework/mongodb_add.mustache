@@ -1,8 +1,4 @@
 //Auto generated Code Mongo-Add
-		try {
-			String jsonInString = mapper.writeValueAsString({{#allParams}}{{paramName}}{{/allParams}});
-			Document document = Document.parse(jsonInString);
-			MongoDB.get().getCollection("{{vendorExtensions.x-mongo-collection}}").insertOne(document);
-		 } catch (Exception e) {
-			 e.printStackTrace();
-		 }
+{{vendorExtensions.x-controller-model-name}}.setOwnerId(user.getId());
+datastore.save({{vendorExtensions.x-controller-model-name}});
+return {{vendorExtensions.x-controller-model-name}};

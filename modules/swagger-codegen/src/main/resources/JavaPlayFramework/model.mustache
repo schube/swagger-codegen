@@ -2,12 +2,10 @@ package {{package}};
 
 import java.util.Objects;
 import apimodels.base.ModelWithOwner;
+import apimodels.base.ModelBase;
 
-import org.bson.types.ObjectId;
-import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.annotations.Entity;
-import org.mongodb.morphia.query.Query;
-import services.MongoDB;
+import org.mongodb.morphia.annotations.Id;
 
 {{#imports}}import {{import}};
 {{/imports}}
