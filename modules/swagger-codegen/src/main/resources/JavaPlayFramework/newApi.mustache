@@ -1,8 +1,12 @@
-package {{package}};
+package {{package}}.implementations;
 
-{{#imports}}import {{import}};
-{{/imports}}
+import org.bson.types.ObjectId;
+import controllers.interfaces.*;
+import datastores.*;
+import apimodels.responses.*;
 import apimodels.*;
+import apimodels.parameters.FindRequest;
+import exceptions.NotFoundException;
 import play.mvc.Http;
 import java.util.List;
 import java.util.ArrayList;

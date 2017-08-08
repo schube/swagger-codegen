@@ -1,6 +1,6 @@
 //Auto generated Code Mongo-Duplicate
-{{vendorExtensions.x-controller-model-class}} {{vendorExtensions.x-controller-model-name}} = datastore.getByIdAndOwner(id, user.getId());
-{{vendorExtensions.x-controller-model-name}}.setId(null); //Reset ID, to save as new model 
+{{vendorExtensions.x-controller-model-class}} {{vendorExtensions.x-controller-model-name}} = datastore.getByIdAndOwner(new ObjectId(id), user.getId());
+{{vendorExtensions.x-controller-model-name}}.resetId(); //Reset ID, to save as new model 
 
 datastore.save({{vendorExtensions.x-controller-model-name}});
 return {{vendorExtensions.x-controller-model-name}};

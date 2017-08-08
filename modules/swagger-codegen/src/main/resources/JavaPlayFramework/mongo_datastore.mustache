@@ -1,4 +1,4 @@
-package apimodels;
+package datastores;
 
 import java.util.List;
 
@@ -11,7 +11,8 @@ import org.mongodb.morphia.query.Query;
 
 import com.mongodb.DBObject;
 import com.mongodb.util.JSON;
-
+import apimodels.*;
+import apimodels.parameters.FindRequest;
 import services.MongoDB;
 
 @Singleton
@@ -19,14 +20,14 @@ public class {{classname}}Datastore {
 
 	private Datastore datastore = new MongoDB().getMorphiaDatastore();
 
-	public {{classname}} getById(String id) {
+	public {{classname}} getById(ObjectId id) {
 		final Query<{{classname}}> query = datastore.createQuery({{classname}}.class);
-		query.criteria("id").equal(new ObjectId(id));
+		query.criteria("id").equal(id);
 
 		return query.get();
 	}
 
-	public List<{{classname}}> find(FindRequest findRequest, String ownerId) {
+	public List<{{classname}}> find(FindRequest findRequest, ObjectId ownerId) {
 
 		
 		
@@ -34,7 +35,7 @@ public class {{classname}}Datastore {
 
 		Query<{{classname}}> findQuery = datastore.getQueryFactory().createQuery(datastore,
 				datastore.getCollection({{classname}}.class), {{classname}}.class, query);
-		findQuery.criteria("ownerId").equal(new ObjectId(ownerId));
+		findQuery.criteria("ownerId").equal(ownerId);
 		FindOptions options = new FindOptions();
 		options.skip(findRequest.getSkip());
 		options.limit(findRequest.getLimit());
@@ -43,14 +44,12 @@ public class {{classname}}Datastore {
 		return (List<{{classname}}>) findQuery.asList(options);
 	}
 
-	public {{classname}} getByIdAndOwner(String id, String ownerId) {
-		return getByIdAndOwner(id, new ObjectId(ownerId));
-	}
 
-	public {{classname}} getByIdAndOwner(String id, ObjectId ownerId) {
+
+	public {{classname}} getByIdAndOwner(ObjectId id, ObjectId ownerId) {
 
 		final Query<{{classname}}> query = datastore.createQuery({{classname}}.class);
-		query.and(query.criteria("ownerId").equal(ownerId), query.criteria("id").equal(new ObjectId(id)));
+		query.and(query.criteria("ownerId").equal(ownerId), query.criteria("id").equal(id));
 
 		return query.get();
 	}
@@ -60,10 +59,10 @@ public class {{classname}}Datastore {
 		return model;
 	}
 
-	public {{classname}} delete(String id, String ownerId) throws Exception {
+
+	public {{classname}} delete(ObjectId id, ObjectId ownerId) throws Exception {
 		{{classname}} model = getByIdAndOwner(id, ownerId);
-		datastore.delete(model);
-		return model;
+		return delete(model);
 	}
 
 	public {{classname}} delete({{classname}} model) throws Exception {
