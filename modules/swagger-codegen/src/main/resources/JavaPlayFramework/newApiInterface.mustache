@@ -1,6 +1,8 @@
 package {{package}}.interfaces;
 
-import apimodels.User;
+import apimodels.responses.*;
+import apimodels.*;
+import apimodels.parameters.Suchabfrage;
 {{#imports}}import {{import}};
 {{/imports}}
 
@@ -16,7 +18,7 @@ import javax.validation.constraints.*;
 {{#operations}}
 public interface {{classname}}ControllerImpInterface {
 {{#operation}}
-    {{>returnTypes}} {{operationId}}({{#allParams}}{{>pathParams}}{{>queryParams}}{{>bodyParams}}{{>formParams}}{{>headerParams}}{{#hasMore}}, {{/hasMore}}{{/allParams}}, User user) {{#handleExceptions}}throws Exception{{/handleExceptions}};
+    {{>returnTypes}} {{operationId}}({{#allParams}}{{>pathParams}}{{>queryParams}}{{>bodyParams}}{{>formParams}}{{>headerParams}}{{#hasMore}}, {{/hasMore}}{{/allParams}}, Benutzer benutzer) {{#handleExceptions}}throws Exception{{/handleExceptions}};
 
 {{/operation}}
 }

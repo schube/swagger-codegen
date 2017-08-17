@@ -1,7 +1,7 @@
 package {{package}};
 
 import play.mvc.Security;
-import apimodels.User;
+import apimodels.Benutzer;
 {{#imports}}import {{import}};
 {{/imports}}
 import play.libs.Json;
@@ -119,7 +119,7 @@ public class {{classname}}Controller extends RESTController {
         {{/collectionFormat}}
         {{/headerParams}}
         {{^controllerOnly}}
-        User user = (User) ctx().args.get("user");
+        Benutzer benutzer = (Benutzer) ctx().args.get("benutzer");
         
         {{#vendorExtensions.x-controller-model-from-jsonrequest-generate}}
 		JsonNode body_as_json = request().body().asJson();
@@ -129,7 +129,7 @@ public class {{classname}}Controller extends RESTController {
 		JsonNode body_as_json = request().body().asJson();
 		FindRequest findrequest = Json.fromJson(body_as_json, FindRequest.class);
 		{{/vendorExtensions.x-mongo-find}}
-		{{#returnType}}{{>returnTypesNoVoid}} result = {{/returnType}}imp.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}, user);{{#returnType}}{{^isResponseFile}}{{^returnTypeIsPrimitive}}{{#useBeanValidation}}
+		{{#returnType}}{{>returnTypesNoVoid}} result = {{/returnType}}imp.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}, benutzer);{{#returnType}}{{^isResponseFile}}{{^returnTypeIsPrimitive}}{{#useBeanValidation}}
         {{#isListContainer}}for ({{{returnType}}} curItem : obj) {
 
         }{{/isListContainer}}{{#isMapContainer}}for (Map.Entry<String, {{{returnType}}}> entry : obj.entrySet()) {

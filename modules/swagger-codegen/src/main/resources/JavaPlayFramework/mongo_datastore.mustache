@@ -12,7 +12,7 @@ import org.mongodb.morphia.query.Query;
 import com.mongodb.DBObject;
 import com.mongodb.util.JSON;
 import apimodels.*;
-import apimodels.parameters.FindRequest;
+import apimodels.parameters.Suchabfrage;
 import services.MongoDB;
 
 @Singleton
@@ -27,7 +27,7 @@ public class {{classname}}Datastore {
 		return query.get();
 	}
 
-	public List<{{classname}}> find(FindRequest findRequest, ObjectId ownerId) {
+	public List<{{classname}}> find(Suchabfrage findRequest, ObjectId ownerId) {
 
 		
 		
