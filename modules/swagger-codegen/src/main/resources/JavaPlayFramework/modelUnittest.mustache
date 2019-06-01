@@ -1,49 +1,12 @@
 package {{package}};
 
-import play.mvc.Security;
+import static org.assertj.core.api.Assertions.assertThat;
 import apimodels.*;
-import play.libs.Json;
-import play.mvc.Controller;
-import play.mvc.Result;
-import play.mvc.Http;
-import java.util.List;
-import java.util.Map;
-import java.util.ArrayList;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.google.inject.Inject;
-import java.io.IOException;
-import swagger.SwaggerUtils;
-import apimodels.parameters.Suchabfrage;
-import com.fasterxml.jackson.core.type.TypeReference;
-import security.Secured;
-import apimodels.responses.*;
-import controllers.implementations.*;
-
-{{#useBeanValidation}}
-import javax.validation.constraints.*;
-{{/useBeanValidation}}
-
-{{#wrapCalls}}
-import swagger.SwaggerUtils.ApiAction;
-{{/wrapCalls}}
-
-{{>generatedAnnotation}}
-{{#operations}}
-@Security.Authenticated(Secured.class)
-public class {{classname}}Controller extends RESTController {
-
-    {{^controllerOnly}}private final {{classname}}ControllerImp imp;{{/controllerOnly}}
-
-    @Inject
-    private {{classname}}Controller({{^controllerOnly}}{{classname}}ControllerImp imp{{/controllerOnly}}) {
-        {{^controllerOnly}}this.imp = imp;{{/controllerOnly}}
-    }
-
-{{#operation}}
+public class {{classname}}ModelTest {
 
 
-    public Result {{operationId}}({{#pathParams}}{{>pathParams}}{{#hasMore}},{{/hasMore}}{{/pathParams}}) {{^handleExceptions}}{{#bodyParams}}throws IOException{{/bodyParams}}{{/handleExceptions}}{{#handleExceptions}}throws Exception{{/handleExceptions}} {
+	@Test
+    public void {{operationId}}({{#pathParams}}{{>pathParams}}{{#hasMore}},{{/hasMore}}{{/pathParams}}) {{^handleExceptions}}{{#bodyParams}}throws IOException{{/bodyParams}}{{/handleExceptions}}{{#handleExceptions}}throws Exception{{/handleExceptions}} {
         {{#queryParams}}
         {{#collectionFormat}}
         List<String> {{paramName}}List = SwaggerUtils.parametersToList("{{collectionFormat}}", request().queryString().get("{{baseName}}"));
